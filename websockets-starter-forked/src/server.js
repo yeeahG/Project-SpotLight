@@ -16,7 +16,12 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 // Put all your backend code here.
+//Vanilla JS Version
+function handleConnection(socket) {
+    console.log(socket)
+}
 
+wss.on("connection", handleConnection)
 
 // server.listen(process.env.PORT, handleListen);
 server.listen(3000, handleListen);
