@@ -28,6 +28,8 @@ const sockets = []; //누군가 server에 연결되면 그 connection을 여기�
 
 wss.on("connection", (socket) => { //Browser가 연결되면
     sockets.push(socket);
+    //nickname을 정하지 않은 사람들에게
+    socket["nickname"] = "Person";
 
     console.log("Connected to Browser🌳"); 
     socket.on("close", () => console.log("Disconnected from the Browser❌")); //브라우저가 꺼졌을 때를 위한 listener
@@ -40,9 +42,12 @@ wss.on("connection", (socket) => { //Browser가 연결되면
         // console.log(message, message);
         switch (message.type) {
             case "new_message":
-                sockets.forEach(aSocket => aSocket.send(message.payload));
+                // sockets.forEach(aSocket => aSocket.send(message.payload));
+                sockets.forEach(aSocket => aSocket.send(`${socket.nickname}: ${message.payload}`));
             case "nickname":
-                console.log(message.payload);
+                //socket에 새로운 item 추가
+                // console.log(message.payload);
+                socket["nickname"] = message.payload;
         }
 
     });

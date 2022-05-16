@@ -44,7 +44,7 @@ function handleSubmit(event) {
     const input = messageForm.querySelector("input");
     socket.send(makeMessage("new_message", input.value)); //front의 form에서 back으로 무언가를 보내고 있음
     // console.log(input.value);
-    // input.value=""; //input을 비워줌
+    input.value=""; //input을 비워줌
 }
 
 function handleNickSubmit(event) {
@@ -57,7 +57,7 @@ function handleNickSubmit(event) {
     //     payload: input.value,
     // });
     socket.send(makeMessage("nickname", input.value));
-}
+};
 
 messageForm.addEventListener("submit", handleSubmit);
 nickForm.addEventListener("submit", handleNickSubmit);
