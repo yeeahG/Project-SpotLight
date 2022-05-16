@@ -1,6 +1,7 @@
 import http from "http";
 import WebSocket from "ws";
 import express from "express";
+import { parse } from "path";
 
 const app = express();
 
@@ -35,12 +36,19 @@ wss.on("connection", (socket) => { //Browser가 연결되면
 
         //user가 보낸 메세지를 다시 user에게 보내줄 것
         // socket.send(message);
+        const parsed = JSON.parse(message);
+        // console.log(parsed, message);
+        if(parsed.type === "new_message") {
+            sockets.forEach(aSocket => aSocket.send(parsed.payload));
+            //각 browser를 aSocket으로 표시하고 거기에 message를 보낸다는 뜻
+        } else if(parsed.type === "nickname") {
+            console.log(parsed.payload);
+        }
 
-        sockets.forEach(aSocket => aSocket.send(message));
-        //각 browser를 aSocket으로 표시하고 거기에 message를 보낸다는 뜻
     })
     // socket.send("Hello!"); //front 브라우저에 메세지 전송
 });
 
 // server.listen(process.env.PORT, handleListen);
 server.listen(3000, handleListen);
+
