@@ -35,6 +35,8 @@ const messageForm = document.querySelector("form");
 function handleSubmit(event) {
     event.preventDefault();
     const input = messageForm.querySelector("input");
-    console.log(input.value);
+    socket.send(input.value); //front의 form에서 back으로 무언가를 보내고 있음
+    // console.log(input.value);
+    input.value=""; //input을 비워줌
 }
 messageForm.addEventListener("submit", handleSubmit);
