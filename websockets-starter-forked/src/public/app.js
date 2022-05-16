@@ -14,7 +14,13 @@ socket.addEventListener("open", () => {
 
 //message를 받았을 때 사용하는 listener
 socket.addEventListener("message", (message) => {
-    console.log("Just got this: ", message.data, "from the server")
+    // console.log("New message: ", message.data, "from the server")
+
+    //새로운 메세지를 받으면 li를 생성
+    const li = document.createElement("li");
+    //message data를 li안에 넣어줌
+    li.innerText = message.data;
+    messageList.append(li);
 });
 
 socket.addEventListener("close", () => {
@@ -23,9 +29,9 @@ socket.addEventListener("close", () => {
 
 //Backend로 message 보내기
 //즉시 실행되길 원하지 않기 때문에
-setTimeout(() => {
-    socket.send("Hello from the browser!");
-}, 10000)
+// setTimeout(() => {
+//     socket.send("Hello from the browser!");
+// }, 10000)
 
 
 const messageList = document.querySelector("ul");
