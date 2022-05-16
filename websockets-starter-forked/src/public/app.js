@@ -42,9 +42,9 @@ const messageForm = document.querySelector("#message");
 function handleSubmit(event) {
     event.preventDefault();
     const input = messageForm.querySelector("input");
-    socket.send(input.value); //front의 form에서 back으로 무언가를 보내고 있음
+    socket.send(makeMessage("new_message", input.value)); //front의 form에서 back으로 무언가를 보내고 있음
     // console.log(input.value);
-    input.value=""; //input을 비워줌
+    // input.value=""; //input을 비워줌
 }
 
 function handleNickSubmit(event) {
@@ -52,11 +52,18 @@ function handleNickSubmit(event) {
     const input = nickForm.querySelector("input");
     // socket.send(input.value);
     //한 서버에 메세지가 작성되면 모든 브라우저에 전송되어서 type을 분리하여 JSON으로 보냄
-    socket.send({
-        type: "nickname",
-        payload: input.value,
-    });
+    // socket.send({
+    //     type: "nickname",
+    //     payload: input.value,
+    // });
+    socket.send(makeMessage("nickname", input.value));
 }
 
 messageForm.addEventListener("submit", handleSubmit);
 nickForm.addEventListener("submit", handleNickSubmit);
+
+//object -> String로 message를 전송하고 싶을 때
+function makeMessage(type, payload) {
+    const msg = {type, payload};
+    return JSON.stringify(msg);
+}
