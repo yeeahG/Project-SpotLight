@@ -10,8 +10,12 @@ html(lang="en")
         header
             h1 SpotLight
         main
+            form#nick
+                input(type="text", placeholder="Choose a Nickname", required)
+                button  Save
+        
             ul
-            form
+            form#message
                 input(type="text", placeholder="Write a message", required)
                 button  Send
         script(src="/public/app.js") 

@@ -35,7 +35,8 @@ socket.addEventListener("close", () => {
 
 
 const messageList = document.querySelector("ul");
-const messageForm = document.querySelector("form");
+const nickForm = document.querySelector("#nick");
+const messageForm = document.querySelector("#message");
 
 
 function handleSubmit(event) {
@@ -45,4 +46,17 @@ function handleSubmit(event) {
     // console.log(input.value);
     input.value=""; //input을 비워줌
 }
+
+function handleNickSubmit(event) {
+    event.preventDefault();
+    const input = nickForm.querySelector("input");
+    // socket.send(input.value);
+    //한 서버에 메세지가 작성되면 모든 브라우저에 전송되어서 type을 분리하여 JSON으로 보냄
+    socket.send({
+        type: "nickname",
+        payload: input.value,
+    });
+}
+
 messageForm.addEventListener("submit", handleSubmit);
+nickForm.addEventListener("submit", handleNickSubmit);
