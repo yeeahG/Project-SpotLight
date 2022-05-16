@@ -12,6 +12,7 @@ socket.addEventListener("open", () => {
     console.log("Connected to Server🌳");
 })
 
+//message를 받았을 때 사용하는 listener
 socket.addEventListener("message", (message) => {
     console.log("Just got this: ", message.data, "from the server")
 });
@@ -19,3 +20,9 @@ socket.addEventListener("message", (message) => {
 socket.addEventListener("close", () => {
     console.log("Disconnected to Server ❌")
 });
+
+//Backend로 message 보내기
+//즉시 실행되길 원하지 않기 때문에
+setTimeout(() => {
+    socket.send("Hello from the browser!");
+}, 10000)
