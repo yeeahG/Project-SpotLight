@@ -17,11 +17,14 @@ const wss = new WebSocket.Server({ server });
 
 // Put all your backend code here.
 //Vanilla JS Version
-function handleConnection(socket) {
-    console.log(socket)
-}
+// function handleConnection(socket) {
+//     console.log(socket)
+// }
 
-wss.on("connection", handleConnection)
+wss.on("connection", (socket) => {
+    console.log("Connected to Browser🌳");
+    socket.send("Hello!") //front에 메세지 전송
+});
 
 // server.listen(process.env.PORT, handleListen);
 server.listen(3000, handleListen);
