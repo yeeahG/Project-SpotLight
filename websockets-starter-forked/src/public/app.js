@@ -44,6 +44,13 @@ function handleSubmit(event) {
     const input = messageForm.querySelector("input");
     socket.send(makeMessage("new_message", input.value)); //front의 form에서 back으로 무언가를 보내고 있음
     // console.log(input.value);
+
+    //새로운 메세지를 받으면 li를 생성
+    const li = document.createElement("li");
+    //message data를 li안에 넣어줌
+    li.innerText = `You : ${input.value}`;
+    messageList.append(li);
+
     input.value=""; //input을 비워줌
 }
 
