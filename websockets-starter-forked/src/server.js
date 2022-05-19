@@ -1,5 +1,8 @@
 import http from "http";
+
 import WebSocket from "ws";
+import SocketIO from "socket.io";
+
 import express from "express";
 import { parse } from "path";
 
@@ -13,8 +16,33 @@ app.get("/*", (_, res) => res.redirect("/"));
 
 const handleListen = () => console.log(`Listening on http://localhost:3000`);
 
-const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
+const httpServer = http.createServer(app);
+
+//const wss = new WebSocket.Server({ server });
+//wss대신 socketio로
+const wsServer = SocketIO(httpServer);
+
+wsServer.on("connection", (socket) => {
+    socket["nickname"] = "Anon"
+    socket.onAny((event) => {
+        console.log(`Socket event : ${event}`);
+    });
+
+    socket.on("enter_room", (roomName, done) => {
+        console.log(socket.rooms); //socket id가 출력됨
+        socket.join(roomName)
+        done();
+        socket.to(roomName).emit("Welcome", socket.nickname)
+    });
+    socket.on("disconnecting", () => {
+        socket.rooms.forEach((room) => socket.to(room).emit("Bye", socket.nickname));
+    })
+    socket.on("new_message", (msg, room, done) => {
+        socket.to(room).emit("new_message", `${socket.nickname}: ${msg}`)
+        done();
+    });
+    socket.on("nickname", nickname => (socket["nickname"] = nickname))
+})
 
 // Put all your backend code here.
 //Vanilla JS Version
@@ -24,7 +52,7 @@ const wss = new WebSocket.Server({ server });
 
 
 //fake Database 만듦
-const sockets = []; //누군가 server에 연결되면 그 connection을 여기에 넣을 것
+/* const sockets = []; //누군가 server에 연결되면 그 connection을 여기에 넣을 것
 
 wss.on("connection", (socket) => { //Browser가 연결되면
     sockets.push(socket);
@@ -52,8 +80,9 @@ wss.on("connection", (socket) => { //Browser가 연결되면
 
     });
     // socket.send("Hello!"); //front 브라우저에 메세지 전송
-});
+}); */
 
 // server.listen(process.env.PORT, handleListen);
-server.listen(3000, handleListen);
+httpServer.listen(3000, handleListen);
 
+//http://localhost:3000/socket.io/socket.io.js을 받음
