@@ -5,10 +5,15 @@ html(lang="en")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         title SpotLight
-        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        //- link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        //- link(rel="stylesheet", href="./views/style.css")
+        style
+             include ./style.css
     body
         header
-            h1 SpotLight
+            h1#title 
+                a(href="/") SPOTLIGHT
+                
         main
             //- form#nick
             //-     input(type="text", placeholder="Choose a Nickname", required)
@@ -19,18 +24,23 @@ html(lang="en")
             //-     input(type="text", placeholder="Write a message", required)
             //-     button  Send
             div#welcome
+                span#room__name ROOM
                 form
+                    label #
                     input(placeholder="room name", required, type="text")
                     button Enter Room
             
             div#room
-                h3 
+                h3#enter__room__name 
                 ul
-                form#name
-                    input(placeholder="nckname", required, type="text")
-                    button save
-                form#msg
-                    input(placeholder="message", required, type="text")
-                    button Send
+                
+                div#enter__form
+                    form#name
+                        input(placeholder="nckname", required, type="text")
+                        button save
+                    form#msg
+                        input(placeholder="message", required, type="text")
+                        button Send
+
         script(src="/socket.io/socket.io.js")
         script(src="/public/app.js") 
