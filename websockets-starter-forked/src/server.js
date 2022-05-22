@@ -39,7 +39,7 @@ wsServer.on("connection", (socket) => {
         console.log(socket.rooms); //socket id가 출력됨
         socket.join(roomName)
         done();
-        socket.to(roomName).emit("Welcome", socket.nickname)
+        socket.to(roomName).emit("Welcome", socket.nickname, countRoom(roomName))
 
         //누군가가 방에 입장할 때 메세지를 보냄
         //publicRooms는 현재 우리서버의 모든 방의 array를 줌
@@ -48,7 +48,9 @@ wsServer.on("connection", (socket) => {
 
 
     socket.on("disconnecting", () => {
-        socket.rooms.forEach((room) => socket.to(room).emit("Bye", socket.nickname));
+        socket.rooms.forEach((room) => 
+            socket.to(room).emit("Bye", socket.nickname, countRoom(room) -1));
+            //-1해주는 이유는 아직 방을 떠나기 전이여서 곧 떠날 방이 포함되어있어서
     })
 
     socket.on("disconnect", () => {
@@ -85,6 +87,14 @@ function publicRooms() {
     })
     return publicRooms;
 }
+
+
+//방의 수를 세어주는 것
+function countRoom(roomName) {
+    return wsServer.sockets.adapter.rooms.get(roomName)?.size;
+}
+
+
 
 //Vanilla JS Version
 // function handleConnection(socket) {
