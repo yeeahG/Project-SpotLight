@@ -3,8 +3,10 @@ body {
     margin: 0 auto;
     width: 70vw;
     background-image: url('../public/images/bg.png');
-    /* background-position: center 700px; */
+    background-position: center 50px;
     background-size: cover;
+    overflow: hidden;
+    background-repeat:no-repeat;
 }
 
 
@@ -83,7 +85,7 @@ ul {
     top: 0px;
     left: 320px;
     width: 700px;
-    height: 600px;
+    height: 500px;
     bottom: 0;
 }
 
@@ -95,7 +97,7 @@ ul {
 #enter__form {
     display: flex;
     margin-top: 10px;
-    height: 290px;
+    height: 100px;
     bottom: 0
 }
 
@@ -105,4 +107,5 @@ ul {
 
 #enter__form #name input {
     width: 200px;
+    overflow: hidden;
 }

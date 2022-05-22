@@ -8,6 +8,8 @@ import { parse } from "path";
 
 const app = express();
 
+
+// Put all your backend code here.
 app.set("view engine", "pug");
 app.set("views", __dirname + "/views");
 app.use("/public", express.static(__dirname + "/public"));
@@ -18,33 +20,72 @@ const handleListen = () => console.log(`Listening on http://localhost:3000`);
 
 const httpServer = http.createServer(app);
 
-//const wss = new WebSocket.Server({ server });
+//const wss = new WebSocket.Server({ httpServer });
 //wss대신 socketio로
 const wsServer = SocketIO(httpServer);
+/* 여기까지가 socket IO 설치하는 법*/
 
 wsServer.on("connection", (socket) => {
     socket["nickname"] = "Anon"
     socket.onAny((event) => {
         console.log(`Socket event : ${event}`);
+
+        //2.8 adapter
+        console.log(wsServer.sockets.adapter);
     });
+
 
     socket.on("enter_room", (roomName, done) => {
         console.log(socket.rooms); //socket id가 출력됨
         socket.join(roomName)
         done();
         socket.to(roomName).emit("Welcome", socket.nickname)
+
+        //누군가가 방에 입장할 때 메세지를 보냄
+        //publicRooms는 현재 우리서버의 모든 방의 array를 줌
+        wsServer.sockets.emit("room_change", publicRooms());
     });
+
+
     socket.on("disconnecting", () => {
         socket.rooms.forEach((room) => socket.to(room).emit("Bye", socket.nickname));
     })
+
+    socket.on("disconnect", () => {
+        //누군가가 방을 떠날 때
+        wsServer.sockets.emit("room_change", publicRooms());
+    });
+
+
     socket.on("new_message", (msg, room, done) => {
         socket.to(room).emit("new_message", `${socket.nickname}: ${msg}`)
         done();
     });
+
     socket.on("nickname", nickname => (socket["nickname"] = nickname))
 })
 
-// Put all your backend code here.
+//public room을 주는 Function
+function publicRooms() {
+    // const sids = wsServer.sockets.adapter.sids;
+    // const rooms = wsServer.socket.adapter.rooms;
+
+    //위에 두줄을
+    const {
+        sockets: {
+            adapter: {sids, rooms},
+        }
+    } = wsServer;
+    
+    const publicRooms = [];
+    rooms.forEach((_, key) => {
+        if(sids.get(key) === undefined) {
+            publicRooms.push(key)
+        }
+    })
+    return publicRooms;
+}
+
 //Vanilla JS Version
 // function handleConnection(socket) {
 //     console.log(socket)
