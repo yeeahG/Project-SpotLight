@@ -1,10 +1,13 @@
 import http from "http";
 
 import WebSocket from "ws";
-import SocketIO from "socket.io";
+// import SocketIO from "socket.io";
+import {Server} from "socket.io";
 
 import express from "express";
 import { parse } from "path";
+
+const { instrument } = require("@socket.io/admin-ui");
 
 const app = express();
 
@@ -22,8 +25,20 @@ const httpServer = http.createServer(app);
 
 //const wss = new WebSocket.Server({ httpServer });
 //wss대신 socketio로
-const wsServer = SocketIO(httpServer);
+// const wsServer = SocketIO(httpServer);
 /* 여기까지가 socket IO 설치하는 법*/
+
+//admin panel SETTING
+const wsServer = new Server(httpServer, {
+    cors: {
+      origin: ["https://admin.socket.io"],
+      credentials: true,
+    },
+});
+
+instrument(wsServer, {
+    auth: false
+});
 
 wsServer.on("connection", (socket) => {
     socket["nickname"] = "Anon"
