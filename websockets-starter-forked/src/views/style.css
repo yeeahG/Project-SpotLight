@@ -1,8 +1,12 @@
 body {
-    background-color: #a4c4ff;
+    /* background-color: #a4c4ff; */
     margin: 0 auto;
-    width: 40%;
+    width: 70vw;
+    background-image: url('../public/images/bg.png');
+    /* background-position: center 700px; */
+    background-size: cover;
 }
+
 
 #title {
     font-size: 60px;
@@ -11,7 +15,7 @@ body {
 	-webkit-text-stroke-color: #0A174E; /*#F5D042*/
 
     width: 120px;
-    height: 60px;
+    height: 100%;
     border: 1px solid #F5D042; /*0A174E*/
     border-radius: 0 0 60px 60px;
     background-color: #F5D042;
@@ -45,6 +49,10 @@ button {
     border-radius: 50%;
 }
 
+ul {
+    list-style:none;
+}
+
 
 #room {
     /* margin-top:10px;
@@ -52,15 +60,43 @@ button {
     width:100%;
     height:200px;
     border-radius: 100% / 100% 100% 0 0;     */
+    position: relative;
 }
 
 #enter__room__name {
-    border-bottom: 1px solid black;
+    border-right: 2px solid black;
     font-size: 35px;
+
+    /* float: left;
+    margin-right: 50px; */
+    position: absolute;
+    top: 0px;
+    width: 200px;
+    height: 500px;
+}
+
+#chat__container {
+    /* margin: 100px 100px;
+    position: fixed;
+    bottom: 0; */
+    position: absolute;
+    top: 0px;
+    left: 320px;
+    width: 700px;
+    height: 600px;
+    bottom: 0;
+}
+
+#chat__container ul {
+    height: 400px;
+    overflow-y: scroll;
 }
 
 #enter__form {
     display: flex;
+    margin-top: 10px;
+    height: 290px;
+    bottom: 0
 }
 
 #enter__form #name {

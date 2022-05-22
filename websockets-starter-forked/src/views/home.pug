@@ -8,7 +8,7 @@ html(lang="en")
         //- link(rel="stylesheet", href="https://unpkg.com/mvp.css")
         //- link(rel="stylesheet", href="./views/style.css")
         style
-             include ./style.css
+            include ./style.css
     body
         header
             h1#title 
@@ -24,23 +24,38 @@ html(lang="en")
             //-     input(type="text", placeholder="Write a message", required)
             //-     button  Send
             div#welcome
-                span#room__name ROOM
+                h3  ① Together
+                span#room__name ENTER ROOM NAME
                 form
                     label #
                     input(placeholder="room name", required, type="text")
-                    button Enter Room
+                    button Enter
             
             div#room
-                h3#enter__room__name 
-                ul
-                
-                div#enter__form
-                    form#name
-                        input(placeholder="nckname", required, type="text")
-                        button save
-                    form#msg
-                        input(placeholder="message", required, type="text")
-                        button Send
+                //- h3#enter__room__name 
+
+                //- div#chat__container
+                //-     ul
+                //-     div#enter__form
+                //-         form#name
+                //-             input(placeholder="nckname", required, type="text")
+                //-             button save
+                //-         form#msg
+                //-             input(placeholder="message", required, type="text")
+                //-             button Send
+
+                div#enter__room__name 
+                    h3
+
+                div#chat__container
+                    ul
+                    div#enter__form
+                        form#name
+                            input(placeholder="nckname", required, type="text")
+                            button save
+                        form#msg
+                            input(placeholder="message", required, type="text")
+                            button Send
 
         script(src="/socket.io/socket.io.js")
         script(src="/public/app.js") 
